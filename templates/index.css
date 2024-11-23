@@ -6,40 +6,43 @@
 }
 
 body {
-  display: flex;
   min-height: 100vh;
   background: linear-gradient(135deg, #1e293b, #0f172a);
   color: white;
+  padding: 2rem;
 }
 
 .container {
   display: flex;
-  width: 100%;
-  padding: 2rem;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.left-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
 }
 
-.calculator-section,
-.tree-section {
+.right-panel {
   flex: 1;
+}
+
+.calculator-section,
+.tokens-section,
+.tree-section {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 2rem;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  transition: transform 0.3s ease;
-}
-
-.calculator-section:hover,
-.tree-section:hover {
-  transform: translateY(-5px);
 }
 
 .calculator {
-  max-width: 700px;
-  max-width: 90%;
-  margin: 0;
+  width: 100%;
 }
 
 .display {
@@ -47,11 +50,20 @@ body {
   padding: 2rem;
   border-radius: 20px;
   margin-bottom: 2rem;
-  font-size: 3rem;
+  font-size: 2.5rem;
   text-align: right;
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
+  min-height: 100px;
+  word-wrap: break-word;
+}
+
+.memory-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .buttons {
@@ -61,8 +73,8 @@ body {
 }
 
 button {
-  padding: 2rem;
-  font-size: 2rem;
+  padding: 1.5rem;
+  font-size: 1.5rem;
   border: none;
   border-radius: 15px;
   background: rgba(255, 255, 255, 0.1);
@@ -70,7 +82,6 @@ button {
   cursor: pointer;
   transition: all 0.2s ease;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  min-height: 80px;
 }
 
 button:hover {
@@ -90,11 +101,64 @@ button.equals {
   background: rgba(255, 166, 0, 0.6);
 }
 
-.tree-container {
-  height: 100%;
-  min-height: 400px;
-  position: relative;
+button.memory-button {
+  background: rgba(100, 149, 237, 0.3);
+}
+
+button.backspace-button {
+  background: rgba(255, 99, 71, 0.3);
+}
+
+.token-table-container {
+  margin-top: 1rem;
+}
+
+.token-table-container h3,
+.tree-section h3 {
+  margin-bottom: 1rem;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+#token-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
   overflow: hidden;
+}
+
+#token-table th,
+#token-table td {
+  padding: 0.8rem;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#token-table th {
+  background: rgba(255, 255, 255, 0.1);
+  font-weight: bold;
+}
+
+#token-table tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.token-count {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+.tree-container {
+  height: 500px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
 }
 
 .node circle {
@@ -104,24 +168,20 @@ button.equals {
   transition: all 0.3s ease;
 }
 
+.node text {
+  fill: white;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
 .node:hover circle {
   fill: rgba(255, 166, 0, 0.2);
   stroke: #f59e0b;
-  transform: scale(1.1);
-}
-
-.node text {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 14px;
-  fill: white;
-  transition: all 0.3s ease;
-  pointer-events: none;
 }
 
 .node:hover text {
   fill: #f59e0b;
   font-weight: bold;
-  transform: scale(1.1);
 }
 
 .link {
@@ -136,54 +196,33 @@ button.equals {
   stroke-width: 3px;
 }
 
-.node-circle {
-  fill: rgba(31, 41, 55, 0.8);
-  stroke: rgba(255, 255, 255, 0.5);
-  stroke-width: 2px;
-  transition: all 0.3s ease;
-}
-
-.node:hover .node-circle {
-  fill: rgba(255, 166, 0, 0.2);
-  stroke: #f59e0b;
-}
-
-@media (max-width: 1400px) {
+@media (max-width: 1200px) {
   .container {
-    flex-direction: column;
+      flex-direction: column;
   }
-
-  .calculator-section,
-  .tree-section {
-    width: 100%;
+  
+  .left-panel, 
+  .right-panel {
+      width: 100%;
   }
-
-  .calculator {
-    width: 100%;
-    max-width: 600px;
-  }
-
-  .display {
-    font-size: 2.5rem;
-  }
-
-  button {
-    padding: 1.5rem;
-    font-size: 1.8rem;
+  
+  .tree-container {
+      height: 400px;
   }
 }
 
 @media (max-width: 768px) {
-  .container {
-    flex-direction: column;
+  body {
+      padding: 1rem;
   }
-
-  .calculator-section,
-  .tree-section {
-    width: 100%;
+  
+  .display {
+      font-size: 2rem;
+      padding: 1.5rem;
   }
-
-  .node text {
-    font-size: 12px;
+  
+  button {
+      padding: 1rem;
+      font-size: 1.2rem;
   }
 }
